@@ -1,2 +1,16 @@
 <h1>Posts#new</h1>
-<p>Find me in app/views/posts/new.html.erb</p>
+<%= form_with model: @post do |f| %>
+  <div>
+    <label>店名</label><br>
+    <%= f.text_field :title %>
+  </div>
+
+  <div>
+    <label>商品</label><br>
+    <%= f.text_area :body %>
+  </div>
+
+  <div>
+    <%= f.submit "投稿" %>
+  </div>
+<% end %>
