@@ -1,37 +1,43 @@
 class PostsController < ApplicationController
-  before_action :is_matching_login_user_post, only: [:edit, :update]
-  def new
-    @post = Post.new
-  end
-
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :is_matching_login_user_post, only: [:edit, :update, :destroy]
+  
   def show
+    @post = Post.find(params[:id])
   end
 
   def index
   end
 
-  def edit
+  def new
+    @post = Post.new
   end
 
   def create
-    @post = Post.new(post_params)
-    if @post.user_id == current_user.id
-      if @post.save
-        redirect_to post_path(@post.id)
-      else
-        render :new
-      end
+    @post = current_user.posts.build(post_params)
+    if @post.save
+      flash[:notice] = "success"
+      redirect_to post_path(@post)
     else
+      flash.now[:alert] = "failed"
       render :new
     end
   end
 
+  def edit
+  end
+
   def update
+    if @post.update(post_params)
+    else
+    end
   end
 
   def destroy
+    @post.destroy
+    flash[:notice] = "success"
+    redirect_to posts_path
   end
-
 
   private
 
@@ -40,10 +46,9 @@ class PostsController < ApplicationController
   end
 
   def is_matching_login_user_post
-    post =Post.find(params[:id])
-    unless post.user.id == current_user.id
+    @post = current_user.posts.find_by(id: params[:id])
+    unless @post
       redirect_to posts_path
     end
   end
-
 end

@@ -1,2 +1,25 @@
 <h1>Posts#show</h1>
-<p>Find me in app/views/posts/show.html.erb</p>
+
+<table>
+  <tr>
+    <td>
+      <%= @post.user.name %>
+    </td>
+
+    <td>
+      <%= @post.title %>
+    </td>
+
+    <td>
+      <%= @post.body %>
+    </td>
+
+    <% if @post.user == current_user %>
+    <td>
+      <%= button_to "投稿編集", edit_post_path(@post.id) %>
+    </td>
+    <% end %>
+  </tr>
+</table>
+
+
