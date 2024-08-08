@@ -16,7 +16,7 @@
 
     <% if @post.user == current_user %>
     <td>
-      <%= button_to "投稿編集", edit_post_path(@post.id) %>
+      <%= link_to "投稿編集", edit_post_path(@post.id) %>
     </td>
     <% end %>
   </tr>

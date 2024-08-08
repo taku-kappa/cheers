@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :is_matching_login_user_post, only: [:edit, :update, :destroy]
-  
+
   def show
     @post = Post.find(params[:id])
   end
@@ -29,14 +29,16 @@ class PostsController < ApplicationController
 
   def update
     if @post.update(post_params)
+      redirect_to post_path(@post.id)
     else
+      render :edit
     end
   end
 
   def destroy
     @post.destroy
     flash[:notice] = "success"
-    redirect_to posts_path
+    redirect_to user_path(@post.user.id)
   end
 
   private
