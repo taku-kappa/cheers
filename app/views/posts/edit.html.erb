@@ -1,11 +1,31 @@
 <h1>Posts#edit</h1>
 
 <%= form_with model: @post, url: post_path(@post.id), method: :patch do |f| %>
-  <label>店名</label><br>
-  <%= f.text_field :title %><br>
+  <div>
+    <label>店名</label><br>
+    <%= f.text_field :shop_name %>
+  </div>
 
-  <label>商品</label><br>
-  <%= f.text_area :body %><br>
+  <div>
+    <label>第１位</label>
+    <%= f.text_field :menu1_name %>
+    <%= f.number_field :menu1_price %>
+    <%= f.text_area :menu1_description %>
+  </div>
+
+  <div>
+    <label>第２位</label>
+    <%= f.text_field :menu2_name %>
+    <%= f.number_field :menu2_price %>
+    <%= f.text_area :menu2_description %>
+  </div>
+
+  <div>
+    <label>第３位</label>
+    <%= f.text_field :menu3_name %>
+    <%= f.number_field :menu3_price %>
+    <%= f.text_area :menu3_description %>
+  </div>
 
   <%= f.submit "変更保存" %><br>
 

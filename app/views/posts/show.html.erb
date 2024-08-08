@@ -1,25 +1,57 @@
 <h1>Posts#show</h1>
 
+<%= @post.user.name %>
+
+<h3><%= @post.shop_name %></h3>
+
 <table>
   <tr>
+    <th>メニュー</th>
+    <th>値段</th>
+    <th>特徴</th>
+  </tr>
+
+  <tr>
     <td>
-      <%= @post.user.name %>
+      <div>
+        <%= @post.menu1_name %>
+      </div>
+      <div>
+        <%= @post.menu2_name %>
+      </div>
+      <div>
+        <%= @post.menu3_name %>
+      </div>
     </td>
 
     <td>
-      <%= @post.title %>
+      <div>
+        <%= @post.menu1_price %>
+      </div>
+      <div>
+        <%= @post.menu2_price %>
+      </div>
+      <div>
+        <%= @post.menu3_price %>
+      </div>
     </td>
 
     <td>
-      <%= @post.body %>
+      <div>
+        <%= @post.menu1_description %>
+      </div>
+      <div>
+        <%= @post.menu2_description %>
+      </div>
+      <div>
+        <%= @post.menu3_description %>
+      </div>
     </td>
-
-    <% if @post.user == current_user %>
-    <td>
-      <%= link_to "投稿編集", edit_post_path(@post.id) %>
-    </td>
-    <% end %>
   </tr>
 </table>
+
+<% if @post.user == current_user %>
+  <%= link_to "投稿編集", edit_post_path(@post.id) %>
+<% end %>
 
 
