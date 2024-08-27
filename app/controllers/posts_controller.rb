@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  #before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :is_matching_login_user_post, only: [:edit, :update, :destroy]
 
   def show
@@ -7,6 +7,16 @@ class PostsController < ApplicationController
   end
 
   def index
+    @keyword = params[:keyword]
+    if params[:keyword].present?
+      if @keyword == 'post'
+        @search = Post.where('shop_name LIKE ?', "%#{params[:keyword]}%")
+      else
+        @search = User.where('name LIKE ?', "%#{params[:keyword]}%")
+      end
+    else
+      @posts = Post.all
+    end
   end
 
   def new
