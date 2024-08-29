@@ -1,6 +1,7 @@
 <h1>Posts#show</h1>
 
-<%= @post.user.name %>
+<%= image_tag @post.user.get_profile_image, :size => '80x80' %>
+<p><%= @post.user.name %></p>
 
 <h3><%= @post.shop_name %></h3>
 
@@ -50,6 +51,28 @@
   </tr>
 </table>
 
+
+<!--コメント一覧-->
+<div>
+  <p>コメント件数：<%= @post.post_comments.count %></p>
+  <% @post.post_comments.each do |post_comment| %>
+    <p><%= image_tag post_comment.user.get_profile_image, :size => '80x80' %></p>
+    <%= post_comment.user.name %><%= post_comment.created_at.strftime('%Y/%M/%d') %>
+    <p><%= post_comment.comment %></p>
+  <% end %>
+</div>
+
+
+<!--コメント投稿フォーム-->
+<div>
+  <%= form_with model: [@post, @comment] do |f| %>
+    <%= f.text_area :comment, row: '5', placeholder: "コメントをここに" %>
+    <%= f.submit "送信する" %>
+  <% end %>
+</div>
+
+
+<!--本人であれば投稿編集可能-->
 <% if @post.user == current_user %>
   <%= link_to "投稿編集", edit_post_path(@post.id) %>
 <% end %>
