@@ -1,133 +1,14 @@
 <h1>Posts#index</h1>
 
 <!--検索フォームのスペース-->
-<%= form_with(url: posts_path, method: :get) do %>
-  <%= text_field_tag :keyword, params[:keyword], placeholder: "検索ワードを入力" %>
-  <%= submit_tag "検索", name: nil %>
+<%= form_with(url: search_posts_path, method: :get) do |f| %>
+  <%= f.search_field :keyword, placeholder: "検索ワードを入力" %>
+  <%= f.submit "検索" %>
 <% end %>
 
 
 <!--検索結果一覧のスペース-->
-<h2>検索一覧</h2>
-<% if @search.any? %>
-  <table>
-    <tbody>
-      <% @search.each do |search| %>
-        <% if search.is_a?(Post) %>
-          <tr>
-            <td>
-              <%= link_to user_path(search.user.id) do %>
-                <%= search.user.name %>
-              <% end %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= link_to user_path(search.user.id) do %>
-                <%= image_tag search.user.get_profile_image, :size => '80x80' %>
-              <% end %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= link_to post_path(search.id) do %>
-                <%= search.shop_name %>
-              <% end %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= search.menu1_name %>
-              <%= search.menu1_price %>円
-              <%= search.menu1_description %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= search.menu2_name %>
-              <%= search.menu2_price %>円
-              <%= search.menu2_description %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= search.menu3_name %>
-              <%= search.menu3_price %>円
-              <%= search.menu3_description %>
-            </td>
-          </tr>
-
-        <% else search.is_a?(User) %>
-          <tr>
-            <td>
-              <%= link_to user_path(search.id) do %>
-                <%= search.name %>
-              <% end %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= link_to user_path(search.id) do %>
-                <%= image_tag search.get_profile_image, :size => '80x80' %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <p>検索ワードは見つかりませんでした。</p>
-<% end %>
 
 
 <!--新規投稿一覧のスペース-->
 <h2>新規投稿一覧</h2>
-<table>
-  <tbody>
-    <% @posts.each do |post| %>
-    <tr>
-      <td>
-        <%= link_to user_path(post.user.id) do %>
-          <%= post.user.name %>
-        <% end %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= link_to user_path(post.user.id) do %>
-          <%= image_tag post.user.get_profile_image, :size => '80x80' %>
-        <% end %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= link_to post_path(post.id) do %>
-          <%= post.shop_name %>
-        <% end %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= post.menu1_name %>
-        <%= post.menu1_price %>円
-        <%= post.menu1_description %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= post.menu2_name %>
-        <%= post.menu2_price %>円
-        <%= post.menu2_description %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= post.menu3_name %>
-        <%= post.menu3_price %>円
-        <%= post.menu3_description %>
-      </td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>

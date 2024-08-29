@@ -7,15 +7,18 @@ class PostsController < ApplicationController
   end
 
   def index
-    @keyword = params[:keyword]
-    if params[:keyword].present?
-      if @keyword == 'post'
-        @search = Post.where('shop_name LIKE ?', "%#{params[:keyword]}%")
-      else
-        @search = User.where('name LIKE ?', "%#{params[:keyword]}%")
+  end
+
+  def search
+    if params[:keyword] != ""
+      @posts = Post.where('shop_name LIKE(?) OR menu1_name LIKE(?) OR menu1_price LIKE(?) OR menu1_description LIKE(?) OR
+      menu2_name LIKE(?) OR menu2_price LIKE(?) OR menu2_description LIKE(?) OR menu3_name LIKE(?) OR menu3_price LIKE(?) OR menu3_description LIKE(?)',
+      "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%")
+
+      @users = User.where('name LIKE(?)', "%#{params[:keyword]}%")
+      if @posts.blank? && @users.blank?
+        redirect_to posts_path
       end
-    else
-      @posts = Post.all
     end
   end
 
