@@ -11,11 +11,22 @@ class PostsController < ApplicationController
   end
 
   def search
-    if params[:keyword] != ""
-      @posts = Post.where('shop_name LIKE(?) OR menu1_name LIKE(?) OR menu1_price LIKE(?) OR menu1_description LIKE(?) OR
-      menu2_name LIKE(?) OR menu2_price LIKE(?) OR menu2_description LIKE(?) OR menu3_name LIKE(?) OR menu3_price LIKE(?) OR menu3_description LIKE(?)',
-      "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%")
-
+    if params[:keyword].present?
+      #@posts = Post.where('shop_name LIKE(?) OR menu1_name LIKE(?) OR menu1_price LIKE(?) OR menu1_description LIKE(?) OR
+      #menu2_name LIKE(?) OR menu2_price LIKE(?) OR menu2_description LIKE(?) OR menu3_name LIKE(?) OR menu3_price LIKE(?) OR menu3_description LIKE(?)',
+      #"%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%", "%#{params[:keyword]}%")
+      
+      #shop_key = 'shop_name'
+      #menu_words = %w(name price description)
+      #menu_keys = (1..3).map { |i| menu_words.map { |s| "menu#{i}_#{s}" } }
+      #keys = menu_keys.unshift(shop_key).flatten
+      #search_keys = keys.map { |s| "#{s} LIKE ?" }.join(" OR ")
+      #search_values = keys.size.times.map { "%#{params[:keyword]}%" }
+      #sql = search_values.unshift(search_keys)
+      #@posts = Post.where(sql)
+      
+      @posts = Post.search(params[:keyword])
+      
       @users = User.where('name LIKE(?)', "%#{params[:keyword]}%")
       if @posts.blank? && @users.blank?
         redirect_to posts_path

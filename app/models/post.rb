@@ -19,5 +19,15 @@ class Post < ApplicationRecord
       #render "post/index"
     #end
   #end
-
+  
+  def self.search(keyword)
+    shop_key = 'shop_name'
+    menu_words = %w(name price description)
+    menu_keys = (1..3).map { |i| menu_words.map { |s| "menu#{i}_#{s}" } }
+    keys = menu_keys.unshift(shop_key).flatten
+    search_keys = keys.map { |s| "#{s} LIKE ?" }.join(" OR ")
+    search_values = keys.size.times.map { "%#{keyword}%" }
+    sql = search_values.unshift(search_keys)
+    where(sql)
+  end
 end
