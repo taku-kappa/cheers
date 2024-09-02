@@ -12,3 +12,65 @@
 
 <!--新規投稿一覧のスペース-->
 <h2>新規投稿一覧</h2>
+<% @posts.each do |post| %>
+
+<!--ユーザー情報を表示-->
+  <%= link_to user_path(post.user.id) do %>
+    <%= image_tag post.user.get_profile_image, :size => '80x80' %>
+  <% end %>
+
+  <%= link_to post.user.name, user_path(post.user.id) %>
+
+<!--居酒屋情報を表示-->
+  <h3>
+    <%= link_to post.shop_name, post_path(post.id) %>
+  </h3>
+
+  <table>
+    <tr>
+      <th>メニュー</th>
+      <th>値段</th>
+      <th>特徴</th>
+    </tr>
+
+    <tr>
+      <td>
+        <div>
+          <%= post.menu1_name %>
+        </div>
+        <div>
+          <%= post.menu2_name %>
+        </div>
+        <div>
+          <%= post.menu3_name %>
+        </div>
+      </td>
+
+      <td>
+        <div>
+          <%= post.menu1_price %>
+        </div>
+        <div>
+          <%= post.menu2_price %>
+        </div>
+        <div>
+          <%= post.menu3_price %>
+        </div>
+      </td>
+
+      <td>
+        <div>
+          <%= post.menu1_description %>
+        </div>
+        <div>
+          <%= post.menu2_description %>
+        </div>
+        <div>
+          <%= post.menu3_description %>
+        </div>
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+<%= paginate @posts %>
