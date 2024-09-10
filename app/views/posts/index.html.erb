@@ -12,6 +12,7 @@
 
 <!--新規投稿一覧のスペース-->
 <h2>新規投稿一覧</h2>
+
 <% @posts.each do |post| %>
 
 <!--ユーザー情報を表示-->
@@ -76,3 +77,28 @@
 
 <!--ページネーションの記述-->
 <%= paginate @posts %>
+
+<!--左右カラム
+<div class="row">
+  <div class="col-md-3">
+    
+  </div>
+  <div class="col-md-9">
+    
+  </div>
+</div>
+-->
+
+<!-- 横並びの一覧
+<div class="row">
+  <%# @posts.each do |post| %>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <%#= post.shop_nmme %>
+        </div>
+      </div>
+    </div>
+  <%# end %>
+</div>
+-->
