@@ -31,11 +31,11 @@ class User < ApplicationRecord
 
   # フォローしたときの処理
   def follow(user)
-    relationships.create(followed_id: user.id)
+    relationships.find_or_create_by(followed_id: user.id)
   end
   # フォローを外すときの処理
   def unfollow(user)
-    relationships.find_by(followed_id: user.id).destroy
+    relationships.find_by(followed_id: user.id)&.destroy
   end
   # フォローしているか判定
   def following?(user)
