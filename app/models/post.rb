@@ -9,11 +9,20 @@ class Post < ApplicationRecord
   validates :menu1_name, presence: true
 
 
+# マップ機能
+  validates :address, presence: true
+
+  geocoded_by :address
+  after_validation :geocode
+
+
+# いいね機能
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)
   end
 
 
+# 検索機能
   def self.search(keyword)
     shop_key = 'shop_name'
     menu_words = %w(name price description)

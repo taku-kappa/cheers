@@ -1,7 +1,7 @@
 class AddMapcolumnsToPosts < ActiveRecord::Migration[6.1]
   def change
-    add_column :posts, :address, :string
-    add_column :posts, :latitude, :float
-    add_column :posts, :longitude, :float
+    add_column :posts, :address, :string, null: false, default: ""
+    add_column :posts, :latitude, :float, null: false, default: 0
+    add_column :posts, :longitude, :float, null: false, default: 0
   end
 end

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  # get 'maps/show'
   get 'relationships/followings'
   get 'relationships/followers'
   devise_for :admin, skip: [:registrations, :password], controllers: {
@@ -30,6 +31,12 @@ Rails.application.routes.draw do
     collection do
       get 'search'
     end
+  end
+
+
+  Rails.application.routes.draw do
+    resource :map, only: [:show]
+    resource :posts, only: [:index]
   end
 
 

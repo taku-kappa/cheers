@@ -7,7 +7,9 @@
 <% end %>
 
 
-<!--検索結果一覧のスペース-->
+<!--地図機能-->
+<div id="map"></div>
+<%= javascript_pack_tag 'map', 'data-turbolinks-track': 'reload' %>
 
 
 <!--新規投稿一覧のスペース-->
@@ -26,6 +28,10 @@
   <h3>
     <%= link_to post.shop_name, post_path(post.id) %>
   </h3>
+
+  <p>
+    <%= post.address %>
+  </p>
 
   <table>
     <tr>
@@ -78,13 +84,14 @@
 <!--ページネーションの記述-->
 <%= paginate @posts %>
 
+
 <!--左右カラム
 <div class="row">
   <div class="col-md-3">
-    
+
   </div>
   <div class="col-md-9">
-    
+
   </div>
 </div>
 -->

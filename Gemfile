@@ -67,3 +67,8 @@ gem "net-pop"
 gem "net-imap"
 
 gem 'kaminari','~> 1.2.1'
+
+
+# マップ機能
+gem 'dotenv-rails'
+gem 'geocoder'

@@ -10,7 +10,7 @@
     <%= link_to "ユーザー編集", edit_user_path(@user.id) %>
   <% end %>
 </div>
-<div>投稿：<%= @posts.count %></div>
+<div>投稿：<%= @post_all.count %></div>
 
 
 <!--フォロー機能-->
@@ -40,6 +40,7 @@
       <%= post.shop_name %>
     <% end %>
   </h3>
+  <p><%= post.address %></p>
   <table>
     <tr>
       <th>メニュー</th>

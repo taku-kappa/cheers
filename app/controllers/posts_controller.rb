@@ -8,13 +8,20 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.page(params[:page])
+    respond_to do |format|
+      format.html do
+        @posts = Post.page(params[:page])
+      end
+      format.json do
+        @posts = Post.all
+      end
+    end
   end
 
   def search
     if params[:keyword].present?
       @posts = Post.search(params[:keyword])
-      
+
       @users = User.where('name LIKE(?)', "%#{params[:keyword]}%")
       if @posts.blank? && @users.blank?
         redirect_to posts_path
@@ -58,7 +65,7 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:shop_name, :menu1_name, :menu1_price, :menu1_description, :menu2_name, :menu2_price, :menu2_description,
-    :menu3_name, :menu3_price, :menu3_description)
+    :menu3_name, :menu3_price, :menu3_description, :address)
   end
 
   def is_matching_login_user_post

@@ -1,3 +1,6 @@
+require("dotenv").config(); // マップ機能追加
+
+
 const { environment } = require('@rails/webpacker')
 
 const webpack = require('webpack')
@@ -11,3 +14,5 @@ environment.plugins.prepend(
 )
 
 module.exports = environment
+
+

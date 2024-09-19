@@ -81,9 +81,9 @@ ActiveRecord::Schema.define(version: 2024_09_13_044040) do
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "address"
-    t.float "latitude"
-    t.float "longitude"
+    t.string "address", default: "", null: false
+    t.float "latitude", default: 0.0, null: false
+    t.float "longitude", default: 0.0, null: false
   end
 
   create_table "relationships", force: :cascade do |t|
