@@ -7,50 +7,25 @@
 
 <p><%= @post.address %></p>
 
-<table>
-  <tr>
-    <th>メニュー</th>
-    <th>値段</th>
-    <th>特徴</th>
-  </tr>
-
-  <tr>
-    <td>
-      <div>
-        <%= @post.menu1_name %>
-      </div>
-      <div>
-        <%= @post.menu2_name %>
-      </div>
-      <div>
-        <%= @post.menu3_name %>
-      </div>
-    </td>
-
-    <td>
-      <div>
-        <%= @post.menu1_price %>
-      </div>
-      <div>
-        <%= @post.menu2_price %>
-      </div>
-      <div>
-        <%= @post.menu3_price %>
-      </div>
-    </td>
-
-    <td>
-      <div>
-        <%= @post.menu1_description %>
-      </div>
-      <div>
-        <%= @post.menu2_description %>
-      </div>
-      <div>
-        <%= @post.menu3_description %>
-      </div>
-    </td>
-  </tr>
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>メニュー</th>
+      <th>値段</th>
+      <th>特徴</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% (1..3).each do |n| %>
+      <tr>
+        <td><%= image_tag(@post.send("image#{n}").attached? ? @post.send("image#{n}") : 'default-image.jpg', size: "100x100") %></td>
+        <td><%= @post.send("menu#{n}_name") %></td>
+        <td><%= @post.send("menu#{n}_price") %></td>
+        <td><%= @post.send("menu#{n}_description") %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
 

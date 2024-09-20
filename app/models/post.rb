@@ -4,6 +4,10 @@ class Post < ApplicationRecord
   has_many :post_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
 
+  has_one_attached :image1
+  has_one_attached :image2
+  has_one_attached :image3
+
 
   validates :shop_name, presence: true
   validates :menu1_name, presence: true

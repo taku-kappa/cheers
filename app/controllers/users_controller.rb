@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!, only: [:show, :edit, :update]
   before_action :is_matching_login_user, only: [:edit, :update]
   def show
     @user = User.find(params[:id])
@@ -29,7 +30,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :name, :plofile_image)
+    params.require(:user).permit(:email, :password, :name, :profile_image)
   end
 
   def is_matching_login_user

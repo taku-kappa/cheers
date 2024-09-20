@@ -64,8 +64,8 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:shop_name, :menu1_name, :menu1_price, :menu1_description, :menu2_name, :menu2_price, :menu2_description,
-    :menu3_name, :menu3_price, :menu3_description, :address)
+    params.require(:post).permit(:shop_name, :image1, :menu1_name, :menu1_price, :menu1_description, :image2, :menu2_name, :menu2_price, :menu2_description,
+    :image3, :menu3_name, :menu3_price, :menu3_description, :address)
   end
 
   def is_matching_login_user_post
