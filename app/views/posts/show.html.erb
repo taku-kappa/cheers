@@ -1,11 +1,28 @@
 <h1>Posts#show</h1>
 
-<%= image_tag @post.user.get_profile_image, :size => '80x80' %>
-<p><%= @post.user.name %></p>
+<div class="row">
+  <div class="col-md-5 offset-md-1 d-flex flex-column align-items-start">
+    <%= image_tag @post.user.get_profile_image, :size => '150x150' %>
+    <p><%= @post.user.name %></p>
+  </div>
+</div>
 
-<h3><%= @post.shop_name %></h3>
+<div class="row">
+  <div class="col-md-5 d-flex flex-column align-items-start">
+    <h3><%= @post.shop_name %></h3>
+    <p><%= @post.address %></p>
+  </div>
 
-<p><%= @post.address %></p>
+  <!--本人であれば投稿編集可能-->
+  <div class="col-md-7 d-flex flex-column align-items-end">
+    <% if @post.user == current_user %>
+      <%= link_to "投稿編集", edit_post_path(@post.id) %>
+    <% end %>
+  </div>
+</div>
+
+
+
 
 <table class="table">
   <thead>
@@ -29,50 +46,51 @@
 </table>
 
 
-<!--いいね機能-->
-<% if @post.favorited_by?(current_user) %>
-  <p>
-    <%= link_to post_favorite_path(@post.id), method: :delete do %>
-      👍 <%= @post.favorites.count %>いいね
+<!--コメント投稿フォーム-->
+<div class="row">
+  <div class="col-md-10 d-flex flex-column align-items-start">
+    <%= form_with model: [@post, @comment] do |f| %>
+      <%= f.text_area :comment, row: '5', placeholder: "コメントをここに" %>
+      <%= f.submit "送信する" %>
     <% end %>
-  </p>
+  </div>
 
-<% else %>
-  <p>
-    <%= link_to post_favorite_path(@post.id), method: :post do %>
-      👍 <%= @post.favorites.count %>いいね
+  <!--いいね機能-->
+  <div class="col-md-2 d-flex flex-column align-items-start">
+    <% if @post.favorited_by?(current_user) %>
+      <%= link_to post_favorite_path(@post.id), method: :delete, class: "btn btn-danger" do %>
+        👍 <%= @post.favorites.count %>いいね
+      <% end %>
+
+    <% else %>
+      <%= link_to post_favorite_path(@post.id), method: :post, class: "btn btn-success" do %>
+        👍 <%= @post.favorites.count %>いいね
+      <% end %>
     <% end %>
-  </p>
-<% end %>
+  </div>
+</div>
+
+
 
 <!--コメント一覧-->
-<div>
-  <p>コメント件数：<%= @post.post_comments.count %></p>
+<p>コメント件数：<%= @post.post_comments.count %></p>
+
+<div class="row">
   <% @post.post_comments.each do |post_comment| %>
-    <p><%= image_tag post_comment.user.get_profile_image, :size => '80x80' %></p>
-    <p><%= post_comment.user.name %><%= post_comment.created_at.strftime('%Y/%m/%d') %></p>
-    <p>
+    <div class="col-md-1 mb-5 d-flex align-items-start">
+      <%= image_tag post_comment.user.get_profile_image, :size => '80x80' %>
+    </div>
+    <div class="col-md-3 offset-md-1 mb-5 d-flex align-items-start">
+      <%= post_comment.user.name %><%= post_comment.created_at.strftime('%Y/%m/%d') %><br>
       <%= post_comment.comment %>
+    </div>
+
+    <div class="col-md-7 mb-5 d-flex align-items-start">
       <% if post_comment.user == current_user %>
         <%= link_to '削除', post_post_comment_path(post_comment.post.id, post_comment.id), method: :delete %>
       <% end %>
-    </p>
+    </div>
+
+
   <% end %>
 </div>
-
-
-<!--コメント投稿フォーム-->
-<div>
-  <%= form_with model: [@post, @comment] do |f| %>
-    <%= f.text_area :comment, row: '5', placeholder: "コメントをここに" %>
-    <%= f.submit "送信する" %>
-  <% end %>
-</div>
-
-
-<!--本人であれば投稿編集可能-->
-<% if @post.user == current_user %>
-  <%= link_to "投稿編集", edit_post_path(@post.id) %>
-<% end %>
-
-
