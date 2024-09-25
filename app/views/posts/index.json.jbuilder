@@ -7,6 +7,7 @@ json.data do
         json.image url_for(post.user.get_profile_image)
       end
       json.shop_name post.shop_name
+      json.image1 post.image1
       json.address post.address
       json.latitude post.latitude
       json.longitude post.longitude

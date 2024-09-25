@@ -1,10 +1,13 @@
 <h1>Posts#index</h1>
 
 <!--検索フォームのスペース-->
-<%= form_with(url: search_posts_path, method: :get) do |f| %>
-  <%= f.search_field :keyword, placeholder: "検索ワードを入力" %>
-  <%= f.submit "検索" %>
-<% end %>
+<div class="mb-2">
+  <%= form_with(url: search_posts_path, method: :get) do |f| %>
+    <%= f.search_field :keyword, placeholder: "検索ワードを入力" %>
+    <%= f.submit "検索" %>
+  <% end %>
+</div>
+
 
 
 <!--地図機能-->
@@ -13,7 +16,7 @@
 
 
 <!--新規投稿一覧のスペース-->
-<h2>新規投稿一覧</h2>
+<h2 class="mt-3">新規投稿一覧</h2>
 
 
 
@@ -28,7 +31,7 @@
       <th>投稿者</th>
     </tr>
   </thead>
-  
+
   <tbody>
     <% @posts.each do |post| %>
       <tr>

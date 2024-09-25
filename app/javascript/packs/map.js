@@ -34,6 +34,7 @@ async function initMap() {
       const userImage = item.user.image;
       const userName = item.user.name;
       const address = item.address;
+      const image1 = item.image1;
 
 
 
@@ -52,7 +53,7 @@ async function initMap() {
             <p class="lead m-0 font-weight-bold">${userName}</p>
           </div>
           <div class="mb-3">
-            <img class="thumbnail" src="${userImage}" loading="lazy">
+            <img class="thumbnail" src="${image1}" loading="lazy">
           </div>
           <div>
             <h1 class="h4 font-weight-bold">${shopName}</h1>

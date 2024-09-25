@@ -5,13 +5,25 @@
 <% if @posts.blank? && @users.blank? %>
   <p>検索ワードに一致する投稿が見つかりませんでした。</p>
 <% elsif @posts.present? %>
-  <table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>店名</th>
+        <th>商品画像１</th>
+        <th>投稿者</th>
+      </tr>
+    </thead>
+
     <tbody>
       <% @posts.each do |post| %>
       <tr>
+        <td><%= link_to post.shop_name, post_path(post) %></td>
         <td>
-          <%= link_to post.shop_name, post_path(post) %>
+          <%= link_to post_path(post) do %>
+            <%= image_tag(post.image1.attached? ? post.image1 : 'default-image.jpg', size: "80x80") %>
+          <% end %>
         </td>
+        <td><%= link_to post.user.name, user_path(post.user.id) %></td>
       </tr>
       <% end %>
 <% else @users.present? %>
@@ -19,7 +31,7 @@
       <tr>
         <td>
           <%= link_to user_path(user.id) do %>
-            <%= image_tag user.get_profile_image, :size => '80x80' %>
+            <%= image_tag user.get_profile_image, :size => '100x100' %>
           <% end %>
           <%= link_to user.name, user_path(user.id) %>
         </td>
