@@ -1,66 +1,83 @@
-<h1>Users#show</h1>
+<h1 class="text-center my-4">ユーザー詳細</h1>
 
-<!--ユーザー情報部分-->
-<div class="row">
-  <div class="offset-md-1 d-flex flex-column align-items-start">
-    <%= image_tag @user.get_profile_image, :size => '150x150' %>
-    <p>
-      <%= @user.name %>
+<!-- ユーザー情報部分 -->
+<div class="container">
+  <div class="row">
+    <!-- プロフィール画像とユーザー名 -->
+    <div class="col-md-4 d-flex flex-column align-items-start">
+      <%= image_tag @user.get_profile_image, :size => '150x150', class: "rounded-circle mb-3" %>
+      <h3><%= @user.name %></h3>
+
+      <!-- 編集ボタン or フォロー/フォロー解除ボタン -->
       <% if @user == current_user %>
-        <%= link_to "編集", edit_user_path(@user.id), class: "btn btn-secondary" %>
+        <%= link_to "編集", edit_user_path(@user.id), class: "btn btn-secondary mt-2" %>
       <% else %>
         <% if current_user.following?(@user) %>
-          <%= link_to "フォロー解除", user_relationships_path(@user.id), method: :delete, class: "btn btn-danger" %>
+          <%= link_to "フォロー解除", user_relationships_path(@user.id), method: :delete, class: "btn btn-danger mt-2" %>
         <% else %>
-          <%= link_to "フォローする", user_relationships_path(@user.id), method: :post, class: "btn btn-primary" %>
+          <%= link_to "フォローする", user_relationships_path(@user.id), method: :post, class: "btn btn-primary mt-2" %>
         <% end %>
       <% end %>
-    </p>
+    </div>
+
+    <!-- 投稿数、フォロワー、フォロー中 -->
+    <div class="col-md-8">
+      <div class="row text-center">
+        <div class="col-md-4">
+          <h5>投稿</h5>
+          <p><%= @post_all.count %></p>
+        </div>
+        <div class="col-md-4">
+          <h5>フォロワー</h5>
+          <p><%= link_to @user.followers.count, user_followers_path(@user.id) %></p>
+        </div>
+        <div class="col-md-4">
+          <h5>フォロー中</h5>
+          <p><%= link_to @user.followings.count, user_followings_path(@user.id) %></p>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <!--投稿数-->
-  <div class="col-md-2 offset-md-2 d-flex flex-column align-items-center">投稿<p><%= @post_all.count %></p></div>
-
-  <!--フォロー機能-->
-    <div class="ccol-md-2 d-flex flex-column align-items-center">フォロワー<p><%= link_to @user.followers.count, user_followers_path(@user.id) %></p></div>
-    <div class="col-md-2 d-flex flex-column align-items-center">フォロー中<P><%= link_to @user.followings.count, user_followings_path(@user.id) %></P></div>
 </div>
 
+<!-- 投稿一覧部分 -->
+<div class="container mt-5">
+  <% @posts.each do |post| %>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h3 class="card-title">
+          <%= link_to post_path(post.id) do %>
+            <%= post.shop_name %>
+          <% end %>
+        </h3>
+        <p class="card-text"><%= post.address %></p>
 
-<!--投稿一覧部分-->
-<% @posts.each do |post| %>
-  <h3>
-    <%= link_to post_path(post.id) do %>
-      <%= post.shop_name %>
-    <% end %>
-  </h3>
-  <p><%= post.address %></p>
+        <table class="table table-bordered">
+          <thead class="thead-light">
+            <tr>
+              <th>画像</th>
+              <th>メニュー</th>
+              <th>値段</th>
+              <th>特徴</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% (1..3).each do |n| %>
+              <tr>
+                <td><%= image_tag(post.send("image#{n}").attached? ? post.send("image#{n}") : 'default-image.jpg', size: "100x100", class: "img-thumbnail") %></td>
+                <td><%= post.send("menu#{n}_name") %></td>
+                <td><%= post.send("menu#{n}_price") %></td>
+                <td><%= post.send("menu#{n}_description") %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+</div>
 
-
-  <table class="table">
-    <thead>
-      <tr>
-        <th></th>
-        <th>メニュー</th>
-        <th>値段</th>
-        <th>特徴</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% (1..3).each do |n| %>
-        <tr>
-          <td><%= image_tag(post.send("image#{n}").attached? ? post.send("image#{n}") : 'default-image.jpg', size: "100x100") %></td>
-          <td><%= post.send("menu#{n}_name") %></td>
-          <td><%= post.send("menu#{n}_price") %></td>
-          <td><%= post.send("menu#{n}_description") %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-<% end %>
-
-
-<!--ページネーションの記述-->
-<%= paginate @posts %>
-
+<!-- ページネーション -->
+<div class="d-flex justify-content-center">
+  <%= paginate @posts, class: "pagination" %>
+</div>

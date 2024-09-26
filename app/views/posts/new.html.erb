@@ -1,47 +1,81 @@
-<h1>Posts#new</h1>
+<h1 class="text-center my-4">Posts#new</h1>
 
-<%= form_with model: @post do |f| %>
-  <div>
-    <label>店名</label><br>
-    <%= f.text_field :shop_name %>
-  </div>
+<div class="container">
+  <%= form_with model: @post, local: true, class: "form" do |f| %>
+    <div class="form-group">
+      <label for="shop_name">店名</label>
+      <%= f.text_field :shop_name, class: "form-control", id: "shop_name", placeholder: "店名を入力" %>
+    </div>
 
-  <div>
-    <%= text_field_tag :zipcode, nil, class: "form-control", placeholder: "郵便番号" %>
-  </div>
+    <div class="form-group">
+      <label for="zipcode">郵便番号</label>
+      <%= text_field_tag :zipcode, nil, class: "form-control", id: "zipcode", placeholder: "郵便番号" %>
+    </div>
 
-  <div>
-    <%= f.text_field :address, class: "form-control", placeholder: "住所" %>
-  </div>
+    <div class="form-group">
+      <label for="address">住所</label>
+      <%= f.text_field :address, class: "form-control", id: "address", placeholder: "住所を入力" %>
+    </div>
 
-  <div>
-    <label>第１位</label>
-    <%= f.file_field :image1 %>
-    <%= f.text_field :menu1_name %>
-    <%= f.number_field :menu1_price %>
-    <%= f.text_area :menu1_description %>
-  </div>
+    <div class="form-group">
+      <label for="menu1">第１位</label>
+      <div class="row">
+        <div class="col-md-4">
+          <%= f.file_field :image1, class: "form-control-file", id: "image1" %>
+        </div>
+        <div class="col-md-4">
+          <%= f.text_field :menu1_name, class: "form-control", placeholder: "メニュー名" %>
+        </div>
+        <div class="col-md-4">
+          <%= f.number_field :menu1_price, class: "form-control", placeholder: "価格" %>
+        </div>
+      </div>
+      <div class="mt-2">
+        <%= f.text_area :menu1_description, class: "form-control", placeholder: "説明", rows: 3 %>
+      </div>
+    </div>
 
-  <div>
-    <label>第２位</label>
-    <%= f.file_field :image2 %>
-    <%= f.text_field :menu2_name %>
-    <%= f.number_field :menu2_price %>
-    <%= f.text_area :menu2_description %>
-  </div>
+    <div class="form-group">
+      <label for="menu2">第２位</label>
+      <div class="row">
+        <div class="col-md-4">
+          <%= f.file_field :image2, class: "form-control-file", id: "image2" %>
+        </div>
+        <div class="col-md-4">
+          <%= f.text_field :menu2_name, class: "form-control", placeholder: "メニュー名" %>
+        </div>
+        <div class="col-md-4">
+          <%= f.number_field :menu2_price, class: "form-control", placeholder: "価格" %>
+        </div>
+      </div>
+      <div class="mt-2">
+        <%= f.text_area :menu2_description, class: "form-control", placeholder: "説明", rows: 3 %>
+      </div>
+    </div>
 
-  <div>
-    <label>第３位</label>
-    <%= f.file_field :image3 %>
-    <%= f.text_field :menu3_name %>
-    <%= f.number_field :menu3_price %>
-    <%= f.text_area :menu3_description %>
-  </div>
+    <div class="form-group">
+      <label for="menu3">第３位</label>
+      <div class="row">
+        <div class="col-md-4">
+          <%= f.file_field :image3, class: "form-control-file", id: "image3" %>
+        </div>
+        <div class="col-md-4">
+          <%= f.text_field :menu3_name, class: "form-control", placeholder: "メニュー名" %>
+        </div>
+        <div class="col-md-4">
+          <%= f.number_field :menu3_price, class: "form-control", placeholder: "価格" %>
+        </div>
+      </div>
+      <div class="mt-2">
+        <%= f.text_area :menu3_description, class: "form-control", placeholder: "説明", rows: 3 %>
+      </div>
+    </div>
 
-  <div>
-    <%= f.submit "投稿" %>
-  </div>
+    <div class="form-group text-center mt-4">
+      <%= f.submit "投稿", class: "btn btn-primary" %>
+    </div>
 
-  <!--地図機能に関する住所をリンクするjavscript-->
-  <%= javascript_pack_tag "jpostal",  'data-turbolinks-track': 'reload' %>
-<% end %>
+    <!-- 地図機能に関する住所をリンクするJavaScript -->
+    <%= javascript_pack_tag "jpostal", 'data-turbolinks-track': 'reload' %>
+  <% end %>
+</div>

@@ -1,96 +1,90 @@
-<h1>Posts#show</h1>
+<h1 class="text-center my-4">投稿詳細</h1>
 
-<div class="row">
-  <div class="col-md-5 offset-md-1 d-flex flex-column align-items-start">
-    <%= image_tag @post.user.get_profile_image, :size => '150x150' %>
-    <p><%= @post.user.name %></p>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-5 d-flex flex-column align-items-start">
-    <h3><%= @post.shop_name %></h3>
-    <p><%= @post.address %></p>
+<div class="container">
+  <!-- 投稿者情報 -->
+  <div class="row mb-4">
+    <div class="col-md-6 d-flex flex-column align-items-start">
+      <%= image_tag @post.user.get_profile_image, :size => '150x150', class: "rounded-circle mb-3" %>
+      <p class="h5"><%= @post.user.name %></p>
+    </div>
   </div>
 
-  <!--本人であれば投稿編集可能-->
-  <div class="col-md-7 d-flex flex-column align-items-end">
-    <% if @post.user == current_user %>
-      <%= link_to "投稿編集", edit_post_path(@post.id) %>
-    <% end %>
+  <!-- 店舗情報と編集ボタン -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <h3><%= @post.shop_name %></h3>
+      <p><%= @post.address %></p>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end align-items-center">
+      <% if @post.user == current_user %>
+        <%= link_to "投稿編集", edit_post_path(@post.id), class: "btn btn-primary" %>
+      <% end %>
+    </div>
   </div>
-</div>
 
-
-
-
-<table class="table">
-  <thead>
-    <tr>
-      <th></th>
-      <th>メニュー</th>
-      <th>値段</th>
-      <th>特徴</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% (1..3).each do |n| %>
+  <!-- メニュー情報 -->
+  <table class="table table-bordered">
+    <thead class="thead-light">
       <tr>
-        <td><%= image_tag(@post.send("image#{n}").attached? ? @post.send("image#{n}") : 'default-image.jpg', size: "100x100") %></td>
-        <td><%= @post.send("menu#{n}_name") %></td>
-        <td><%= @post.send("menu#{n}_price") %></td>
-        <td><%= @post.send("menu#{n}_description") %></td>
+        <th>画像</th>
+        <th>メニュー</th>
+        <th>値段</th>
+        <th>特徴</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% (1..3).each do |n| %>
+        <tr>
+          <td><%= image_tag(@post.send("image#{n}").attached? ? @post.send("image#{n}") : 'default-image.jpg', size: "100x100", class: "img-thumbnail") %></td>
+          <td><%= @post.send("menu#{n}_name") %></td>
+          <td><%= @post.send("menu#{n}_price") %></td>
+          <td><%= @post.send("menu#{n}_description") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
+  <!-- コメント投稿フォームといいね機能 -->
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <%= form_with model: [@post, @comment], local: true do |f| %>
+        <div class="form-group">
+          <%= f.text_area :comment, rows: '5', class: "form-control", placeholder: "コメントをここに" %>
+        </div>
+        <%= f.submit "送信する", class: "btn btn-primary" %>
+      <% end %>
+    </div>
 
-<!--コメント投稿フォーム-->
-<div class="row">
-  <div class="col-md-10 d-flex flex-column align-items-start">
-    <%= form_with model: [@post, @comment] do |f| %>
-      <%= f.text_area :comment, row: '5', placeholder: "コメントをここに" %>
-      <%= f.submit "送信する" %>
-    <% end %>
+    <div class="col-md-4 d-flex justify-content-start align-items-center">
+      <% if @post.favorited_by?(current_user) %>
+        <%= link_to post_favorite_path(@post.id), method: :delete, class: "btn btn-danger" do %>
+          👍 <%= @post.favorites.count %> いいね
+        <% end %>
+      <% else %>
+        <%= link_to post_favorite_path(@post.id), method: :post, class: "btn btn-success" do %>
+          👍 <%= @post.favorites.count %> いいね
+        <% end %>
+      <% end %>
+    </div>
   </div>
 
-  <!--いいね機能-->
-  <div class="col-md-2 d-flex flex-column align-items-start">
-    <% if @post.favorited_by?(current_user) %>
-      <%= link_to post_favorite_path(@post.id), method: :delete, class: "btn btn-danger" do %>
-        👍 <%= @post.favorites.count %>いいね
-      <% end %>
+  <!-- コメント一覧 -->
+  <p class="h5">コメント件数：<%= @post.post_comments.count %></p>
 
-    <% else %>
-      <%= link_to post_favorite_path(@post.id), method: :post, class: "btn btn-success" do %>
-        👍 <%= @post.favorites.count %>いいね
-      <% end %>
+  <div class="row">
+    <% @post.post_comments.each do |post_comment| %>
+      <div class="col-md-1 mb-4">
+        <%= image_tag post_comment.user.get_profile_image, :size => '80x80', class: "rounded-circle" %>
+      </div>
+      <div class="col-md-8 mb-4">
+        <p><strong><%= post_comment.user.name %></strong> <small><%= post_comment.created_at.strftime('%Y/%m/%d') %></small></p>
+        <p><%= post_comment.comment %></p>
+      </div>
+      <div class="col-md-3 mb-4 d-flex justify-content-end">
+        <% if post_comment.user == current_user %>
+          <%= link_to '削除', post_post_comment_path(post_comment.post.id, post_comment.id), method: :delete, class: "btn btn-outline-danger" %>
+        <% end %>
+      </div>
     <% end %>
   </div>
-</div>
-
-
-
-<!--コメント一覧-->
-<p>コメント件数：<%= @post.post_comments.count %></p>
-
-<div class="row">
-  <% @post.post_comments.each do |post_comment| %>
-    <div class="col-md-1 mb-5 d-flex align-items-start">
-      <%= image_tag post_comment.user.get_profile_image, :size => '80x80' %>
-    </div>
-    <div class="col-md-3 offset-md-1 mb-5 d-flex align-items-start">
-      <%= post_comment.user.name %><%= post_comment.created_at.strftime('%Y/%m/%d') %><br>
-      <%= post_comment.comment %>
-    </div>
-
-    <div class="col-md-7 mb-5 d-flex align-items-start">
-      <% if post_comment.user == current_user %>
-        <%= link_to '削除', post_post_comment_path(post_comment.post.id, post_comment.id), method: :delete %>
-      <% end %>
-    </div>
-
-
-  <% end %>
 </div>

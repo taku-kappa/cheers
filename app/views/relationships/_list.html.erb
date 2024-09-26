@@ -1,15 +1,15 @@
-<!--ユーザー情報-->
-<div class="row">
-  <div class="col-md-3 offset-md-1">
+<!-- ユーザー情報 -->
+<div class="row my-4 align-items-center">
+  <div class="col-md-3 text-center">
     <%= link_to user_path(user.id) do %>
-      <%= image_tag user.get_profile_image, :size => '200x200' %>
-      <p><%= user.name %></p>
+      <%= image_tag user.get_profile_image, class: "img-fluid rounded-circle mb-2", size: "200x200" %>
+      <p class="font-weight-bold"><%= user.name %></p>
     <% end %>
   </div>
 
-  <div class="col-md-8 d-flex align-items-center p-0">
+  <div class="col-md-8 d-flex justify-content-start">
     <% if user != current_user %>
-      <% if current_user.following?(@user) %>
+      <% if current_user.following?(user) %>
         <%= link_to "フォロー解除", user_relationships_path(user.id), method: :delete, class: "btn btn-danger" %>
       <% else %>
         <%= link_to "フォローする", user_relationships_path(user.id), method: :post, class: "btn btn-primary" %>
@@ -18,25 +18,21 @@
   </div>
 </div>
 
-
-
-
-
-<!--フォロワー・フォロー中ユーザー一覧-->
+<!-- フォロワー・フォロー中ユーザー一覧 -->
 <div class="row">
   <% if users.exists? %>
     <% users.each do |user| %>
-      <div class="col-md-3 offset-md-1">
+      <div class="col-md-3 text-center my-3">
         <%= link_to user_path(user.id) do %>
-          <%= image_tag user.get_profile_image, :size => '100x100' %>
+          <%= image_tag user.get_profile_image, class: "img-fluid rounded-circle mb-2", size: "100x100" %>
         <% end %>
       </div>
 
-      <div class="col-md-3 d-flex align-items-center">
-        <%= link_to user.name, user_path(user.id) %>
+      <div class="col-md-3 d-flex align-items-center my-3">
+        <%= link_to user.name, user_path(user.id), class: "font-weight-bold text-dark" %>
       </div>
 
-      <div class="col-md-4 d-flex align-items-center">
+      <div class="col-md-4 d-flex align-items-center my-3">
         <% if current_user != user %>
           <% if current_user.following?(user) %>
             <%= link_to "フォロー解除", user_relationships_path(user.id), method: :delete, class: "btn btn-danger" %>
@@ -47,6 +43,8 @@
       </div>
     <% end %>
   <% else %>
-    <p>ユーザーはいません</p>
+    <div class="col-12 text-center">
+      <p class="alert alert-warning">ユーザーが見つかりません</p>
+    </div>
   <% end %>
 </div>

@@ -1,55 +1,66 @@
-<h1>Posts#index</h1>
+<h1 class="text-center my-4">投稿一覧</h1>
 
-<!--検索フォームのスペース-->
-<div class="mb-2">
-  <%= form_with(url: search_posts_path, method: :get) do |f| %>
-    <%= f.search_field :keyword, placeholder: "検索ワードを入力" %>
-    <%= f.submit "検索" %>
-  <% end %>
+<!-- 検索フォーム -->
+<div class="container mb-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <%= form_with(url: search_posts_path, method: :get, local: true, class: "input-group") do |f| %>
+        <%= f.search_field :keyword, class: "form-control", placeholder: "検索ワードを入力" %>
+        <div class="input-group-append">
+          <%= f.submit "検索", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
 
+<!-- 地図機能 -->
+<div class="container mb-4">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div id="map" style="width: 100%; height: 400px;"></div>
+      <%= javascript_pack_tag 'map', 'data-turbolinks-track': 'reload' %>
+    </div>
+  </div>
+</div>
 
+<!-- 新規投稿一覧 -->
+<div class="container">
+  <h2 class="text-center mb-4">新規投稿一覧</h2>
 
-<!--地図機能-->
-<div id="map"></div>
-<%= javascript_pack_tag 'map', 'data-turbolinks-track': 'reload' %>
-
-
-<!--新規投稿一覧のスペース-->
-<h2 class="mt-3">新規投稿一覧</h2>
-
-
-
-<!--ユーザー情報を表示-->
-
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>店名</th>
-      <th>イメージ</th>
-      <th>投稿者</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @posts.each do |post| %>
+  <!-- 投稿一覧テーブル -->
+  <table class="table table-bordered text-center">
+    <thead class="thead-light">
       <tr>
-        <td><%= link_to post.shop_name, post_path(post.id) %></td>
-        <td>
-          <%= link_to post_path(post) do %>
-            <%= image_tag(post.image1.attached? ? post.image1 : 'default-image.jpg', size: "80x80") %>
-          <% end %>
-        </td>
-        <td><%= link_to post.user.name, user_path(post.user.id) %></td>
+        <th>店名</th>
+        <th>イメージ</th>
+        <th>投稿者</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @posts.each do |post| %>
+        <tr>
+          <td class="align-middle">
+            <%= link_to post.shop_name, post_path(post.id), class: "text-dark font-weight-bold" %>
+          </td>
+          <td class="align-middle">
+            <%= link_to post_path(post) do %>
+              <%= image_tag(post.image1.attached? ? post.image1 : 'default-image.jpg', size: "80x80", class: "img-thumbnail") %>
+            <% end %>
+          </td>
+          <td class="align-middle">
+            <%= link_to post.user.name, user_path(post.user.id), class: "text-primary" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <!--ページネーションの記述-->
-<%= paginate @posts %>
-
+<div class="d-flex justify-content-center">
+  <%= paginate @posts, class: "pagination" %>
+</div>
 
 <!--左右カラム
 <div class="row">
