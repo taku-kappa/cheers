@@ -3,6 +3,8 @@
   key: process.env.Maps_API_Key
 });
 
+console.log(process.env.Maps_API_Key)
+
 
 // ライブラリの読み込み
 let map;
