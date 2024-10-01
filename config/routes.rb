@@ -8,8 +8,11 @@ Rails.application.routes.draw do
   }
 
   namespace :admin do
+    root 'dashboards#index'
     get 'dashboards', to: 'dashboards#index'
     resources :users, only: [:destroy]
+    resources :posts, only: [:index, :destroy]
+    resources :post_comments, only: [:index, :destroy]
   end
 
   devise_for :users
@@ -35,6 +38,9 @@ Rails.application.routes.draw do
 
 
   Rails.application.routes.draw do
+  namespace :admin do
+    get 'posts/index'
+  end
     resource :map, only: [:show]
     resource :posts, only: [:index]
   end
