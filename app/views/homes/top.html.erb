@@ -1,9 +1,10 @@
-<h1>welcome to Cheers !!</h1>
+<div class="jumbotron">
+  <div class="container text-center mt-5">
+    <h1 class="mb-5">Cheers !!</h1>
 
-<div>
-  <%= link_to "Log in", new_user_session_path %>
-</div>
-
-<div>
-  <%= link_to "Sign up", new_user_registration_path %>
+    <div class="d-flex justify-content-center mb-2" style="max-width: 300px; margin: 0 auto;">
+      <%= link_to "Log in", new_user_session_path, class: "btn btn-primary mx-2 flex-grow-1" %>
+      <%= link_to "Sign up", new_user_registration_path, class: "btn btn-success mx-2 flex-grow-1" %>
+    </div>
+  </div>
 </div>

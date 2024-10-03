@@ -90,3 +90,7 @@ production:
 
   # Cache manifest.json for performance
   cache_manifest: true
+  
+  # ホームの画像のためのコード
+  resolved_paths: ['app/javascript/images', 'app/assets/images']
+
