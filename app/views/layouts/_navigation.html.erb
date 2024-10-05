@@ -11,28 +11,28 @@
         <li class="nav-item">
           <a class="nav-link text-dark" href="/posts">投稿一覧</a>
         </li>
-        
+
         <li class="nav-item">
           <% if current_user %>
             <a class="nav-link text-dark" href="<%= user_path(current_user.id) %>">マイページ</a>
           <% end %>
         </li>
-        
+
         <li class="nav-item">
           <%= link_to '新規投稿', new_post_path, class: 'nav-link text-dark', data: {turbolinks: "false"}  %>
         </li>
-        
+
          <li class="nav-item">
           <a class="nav-link text-dark" href="/posts">検索</a>
         </li>
-        
+
         <li class="nav-item">
           <a class="nav-link text-dark" href="/homes/about">アバウト</a>
         </li>
-        
+
         <% if current_user %>
           <li class="nav-item">
-            <%= link_to "ロクアウト", destroy_user_session_path, method: :delete, class: "nav-link text-dark" %>
+            <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link text-dark" %>
           </li>
         <% else %>
           <li class="nav-item">
